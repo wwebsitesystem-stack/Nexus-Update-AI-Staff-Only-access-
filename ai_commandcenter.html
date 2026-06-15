@@ -2,26 +2,51 @@
 <html lang="en">
 <head>
     <style>
-        body { background: #0d1117; color: #00d4ff; font-family: monospace; padding: 20px; }
+        body { 
+            background: #0d1117; 
+            color: #00d4ff; 
+            font-family: 'Courier New', monospace; 
+            padding: 20px; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #aiOutput { font-size: 1.5rem; text-shadow: 0 0 10px #00d4ff; }
     </style>
 </head>
 <body>
-    <div id="aiOutput">AI System Ready...</div>
+    <div id="aiOutput">Nexus System Initialized... Awaiting Input.</div>
 
     <script>
-        // Listen for messages from the parent window (index.html)
+        // Function to make Nexus speak
+        function nexusSpeak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.1; // Slightly faster for high-tech feel
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Listen for messages from index.html (the shell)
         window.addEventListener("message", (event) => {
             const command = event.data;
             const output = document.getElementById('aiOutput');
             
             output.innerHTML = "Processing: " + command + "...";
+
+            // Here is where the "Brain" makes decisions
+            let response = "";
             
-            // Logic to perform tasks
             if (command.toLowerCase().includes("hello")) {
-                output.innerHTML = "Nexus: Hello. I am online and ready to assist.";
+                response = "Hello. I am online and ready to assist with your Nexus tasks.";
+            } else if (command.toLowerCase().includes("status")) {
+                response = "All systems are operational. Google services are connected.";
             } else {
-                output.innerHTML = "Nexus: Executing task: " + command;
+                response = "Command received: " + command + ". Initiating protocol.";
             }
+
+            output.innerHTML = "Nexus: " + response;
+            nexusSpeak(response); // Nexus speaks the response!
         });
     </script>
 </body>
