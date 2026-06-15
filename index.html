@@ -1,162 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus | Command Center</title>
     <style>
-        :root {
-            --bg-dark: #0a0e14;
-            --glass: rgba(20, 26, 35, 0.7);
-            --accent-blue: #00d4ff;
-            --text-main: #e0e6ed;
-            --text-dim: #94a3b8;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Sidebar */
-        nav {
-            width: 260px;
-            background: var(--glass);
-            border-right: 1px solid #1e293b;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-blue);
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        .menu-item {
-            padding: 10px;
-            cursor: pointer;
-            color: var(--text-dim);
-            transition: 0.3s;
-        }
-
-        .menu-item:hover {
-            color: var(--accent-blue);
-        }
-
-        /* Main Content */
-        main {
-            flex-grow: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .command-bar {
-            background: var(--glass);
-            border: 1px solid #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            display: flex;
-            gap: 10px;
-        }
-
-        input[type="text"] {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.1rem;
-            outline: none;
-        }
-
-        button {
-            background: var(--accent-blue);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            color: var(--bg-dark);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid #1e293b;
-            padding: 20px;
-            border-radius: 12px;
-            height: 200px;
-        }
-
-        .card h3 {
-            margin-top: 0;
-            color: var(--accent-blue);
-        }
+        body { margin: 0; background: #0a0e14; display: flex; height: 100vh; }
+        nav { width: 200px; border-right: 1px solid #1e293b; padding: 20px; color: white; }
+        #nexusFrame { flex-grow: 1; border: none; }
     </style>
 </head>
 <body>
-
     <nav>
-        <div class="logo">NEXUS</div>
-        <div class="menu-item">Dashboard</div>
-        <div class="menu-item">Cloud Data</div>
-        <div class="menu-item">AI Agents</div>
-        <div class="menu-item">System Logs</div>
+        <h2>NEXUS</h2>
+        <input type="text" id="mainInput" placeholder="Command...">
+        <button onclick="sendCommand()">EXECUTE</button>
     </nav>
-
-    <main>
-        <div class="dashboard-header">
-            <h1>Command Center</h1>
-            <p>Status: <span style="color: var(--accent-blue)">System Online</span></p>
-        </div>
-
-        <div class="command-bar">
-            <input type="text" id="commandInput" placeholder="Enter command for Nexus AI...">
-            <button onclick="executeCommand()">EXECUTE</button>
-        </div>
-
-        <div class="grid">
-            <div class="card"><h3>Active Tasks</h3><p>No active tasks.</p></div>
-            <div class="card"><h3>AI Memory</h3><p>Nexus is learning...</p></div>
-            <div class="card"><h3>Connectivity</h3><p>Google Workspace: Linked</p></div>
-        </div>
-    </main>
+    
+    <iframe id="nexusFrame" src="ai_commandcenter.html"></iframe>
 
     <script>
-        function executeCommand() {
-            const input = document.getElementById('commandInput');
-            const command = input.value;
-            
-            if (command.trim() !== "") {
-                console.log("Nexus received command:", command);
-                alert("Nexus is processing: " + command);
-                input.value = ""; // Clear input after sending
-            }
+        function sendCommand() {
+            const cmd = document.getElementById('mainInput').value;
+            const iframe = document.getElementById('nexusFrame');
+            // Send the message to the iframe
+            iframe.contentWindow.postMessage(cmd, '*');
         }
-
-        // Allow pressing Enter key to trigger command
-        document.getElementById("commandInput").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") {
-                executeCommand();
-            }
-        });
     </script>
 </body>
 </html>
