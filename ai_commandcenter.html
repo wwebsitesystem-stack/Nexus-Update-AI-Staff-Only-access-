@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body { background: #0d1117; color: #00d4ff; font-family: monospace; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div id="aiOutput">AI System Ready...</div>
+
+    <script>
+        // Listen for messages from the parent window (index.html)
+        window.addEventListener("message", (event) => {
+            const command = event.data;
+            const output = document.getElementById('aiOutput');
+            
+            output.innerHTML = "Processing: " + command + "...";
+            
+            // Logic to perform tasks
+            if (command.toLowerCase().includes("hello")) {
+                output.innerHTML = "Nexus: Hello. I am online and ready to assist.";
+            } else {
+                output.innerHTML = "Nexus: Executing task: " + command;
+            }
+        });
+    </script>
+</body>
+</html>
